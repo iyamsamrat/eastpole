@@ -75,18 +75,23 @@ jQuery(document).ready(function($) {
 			}
 		})
 
-		$('body').on('click', '.js-menu-toggle', function(e) {
-			var $this = $(this);
-			e.preventDefault();
-
-			if ( $('body').hasClass('offcanvas-menu') ) {
-				$('body').removeClass('offcanvas-menu');
-				$this.removeClass('active');
-			} else {
-				$('body').addClass('offcanvas-menu');
-				$this.addClass('active');
-			}
-		}) 
+		$(document).ready(function () {
+			$(".js-menu-toggle").click(function (e) {
+			  e.preventDefault();
+			  $(".site-mobile-menu").toggleClass("active");
+			  $("body").toggleClass("offcanvas-menu");
+			  $(this).toggleClass("active");
+			});
+		  
+			$(document).click(function (e) {
+			  if (!$(e.target).closest(".site-mobile-menu, .js-menu-toggle").length) {
+				$(".site-mobile-menu").removeClass("active");
+				$("body").removeClass("offcanvas-menu");
+				$(".js-menu-toggle").removeClass("active");
+			  }
+			});
+		  });
+		  
 
 		// click outisde offcanvas
 		$(document).mouseup(function(e) {
@@ -298,18 +303,27 @@ jQuery(document).ready(function($) {
 	// navigation
   var OnePageNavigation = function() {
     var navToggler = $('.site-menu-toggle');
-   	$("body").on("click", ".main-menu li a[href^='#'], .smoothscroll[href^='#'], .site-mobile-menu .site-nav-wrap li a", function(e) {
-      e.preventDefault();
-
-      var hash = this.hash;
-
-      $('html, body').animate({
-        'scrollTop': $(hash).offset().top
-      }, 600, 'easeInOutCirc', function(){
-        window.location.hash = hash;
-      });
-
-    });
+	$("body").on("click", ".main-menu li a[href^='#'], .smoothscroll[href^='#']", function(e) {
+		e.preventDefault();
+	
+		var hash = this.hash;
+	
+		$('html, body').animate({
+			'scrollTop': $(hash).offset().top
+		}, 600, 'easeInOutCirc', function(){
+			window.location.hash = hash;
+		});
+	
+	});
+	
+	// Allow normal page navigation for non-anchor links in the mobile menu
+	$("body").on("click", ".site-mobile-menu .site-nav-wrap li a", function(e) {
+		var href = $(this).attr("href");
+		if (href && href !== "#" && !href.startsWith("#")) {
+			window.location.href = href;
+		}
+	});
+	
   };
   OnePageNavigation();
 

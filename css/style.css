@@ -562,8 +562,14 @@ h1, h2, h3, h4, h5,
 
 /* Blocks */
 .intro-section {
-  background-size: cover;
-  position: relative; }
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  height: 100vh; /* Default full height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
   .intro-section, .intro-section .container .row {
     height: 100vh;
     min-height: 900px; }
@@ -579,12 +585,18 @@ h1, h2, h3, h4, h5,
     background-position: center;
     background-repeat: no-repeat; }
     @media (max-width: 991.98px) {
-      .intro-section:before {
-        width: 100%; } }
-  .intro-section h1 {
-    font-size: 7rem;
-    font-weight: 900;
-    color: #fff; }
+      .intro-section {
+        height: 60vh; /* Reduce height for mobile */
+        min-height: unset;
+        padding: 50px 0;
+      }
+    
+      .intro-section h1 {
+        font-size: 32px !important; /* Reduce text size */
+        text-align: center;
+        padding: 10px;
+      }
+    }
   .intro-section p {
     color: rgba(255, 255, 255, 0.5);
     font-size: 1.1rem;
